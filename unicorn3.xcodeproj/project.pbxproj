@@ -20,6 +20,10 @@
 		7880B634230298C800486D9B /* SAPFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7880B62F230298C800486D9B /* SAPFoundation.framework */; };
 		7880B635230298C800486D9B /* SAPFoundation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7880B62F230298C800486D9B /* SAPFoundation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7880B638230298E400486D9B /* Unicorn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7880B637230298E400486D9B /* Unicorn.swift */; };
+		78D3F3142302A119008777A6 /* SAPFioriLoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D3F3112302A119008777A6 /* SAPFioriLoadingIndicator.swift */; };
+		78D3F3152302A119008777A6 /* AlertHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D3F3122302A119008777A6 /* AlertHelper.swift */; };
+		78D3F31A2302A554008777A6 /* FundingRound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D3F3192302A554008777A6 /* FundingRound.swift */; };
+		78D3F31C2302A699008777A6 /* UnicornAPIURLs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D3F31B2302A699008777A6 /* UnicornAPIURLs.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -51,6 +55,10 @@
 		7880B62E230298C800486D9B /* SAPCommon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SAPCommon.framework; sourceTree = "<group>"; };
 		7880B62F230298C800486D9B /* SAPFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SAPFoundation.framework; sourceTree = "<group>"; };
 		7880B637230298E400486D9B /* Unicorn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Unicorn.swift; sourceTree = "<group>"; };
+		78D3F3112302A119008777A6 /* SAPFioriLoadingIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SAPFioriLoadingIndicator.swift; sourceTree = "<group>"; };
+		78D3F3122302A119008777A6 /* AlertHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertHelper.swift; sourceTree = "<group>"; };
+		78D3F3192302A554008777A6 /* FundingRound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundingRound.swift; sourceTree = "<group>"; };
+		78D3F31B2302A699008777A6 /* UnicornAPIURLs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnicornAPIURLs.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +97,7 @@
 		7880B618230298AE00486D9B /* unicorn3 */ = {
 			isa = PBXGroup;
 			children = (
+				78D3F3102302A119008777A6 /* util */,
 				7880B619230298AE00486D9B /* AppDelegate.swift */,
 				7880B61B230298AE00486D9B /* MasterViewController.swift */,
 				7880B637230298E400486D9B /* Unicorn.swift */,
@@ -97,8 +106,19 @@
 				7880B622230298AF00486D9B /* Assets.xcassets */,
 				7880B624230298AF00486D9B /* LaunchScreen.storyboard */,
 				7880B627230298AF00486D9B /* Info.plist */,
+				78D3F3192302A554008777A6 /* FundingRound.swift */,
+				78D3F31B2302A699008777A6 /* UnicornAPIURLs.swift */,
 			);
 			path = unicorn3;
+			sourceTree = "<group>";
+		};
+		78D3F3102302A119008777A6 /* util */ = {
+			isa = PBXGroup;
+			children = (
+				78D3F3112302A119008777A6 /* SAPFioriLoadingIndicator.swift */,
+				78D3F3122302A119008777A6 /* AlertHelper.swift */,
+			);
+			path = util;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -173,10 +193,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78D3F31A2302A554008777A6 /* FundingRound.swift in Sources */,
+				78D3F3152302A119008777A6 /* AlertHelper.swift in Sources */,
+				78D3F3142302A119008777A6 /* SAPFioriLoadingIndicator.swift in Sources */,
 				7880B61E230298AE00486D9B /* DetailViewController.swift in Sources */,
 				7880B61C230298AE00486D9B /* MasterViewController.swift in Sources */,
 				7880B638230298E400486D9B /* Unicorn.swift in Sources */,
 				7880B61A230298AE00486D9B /* AppDelegate.swift in Sources */,
+				78D3F31C2302A699008777A6 /* UnicornAPIURLs.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

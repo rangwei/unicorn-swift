@@ -8,20 +8,19 @@
 
 import SAPFiori
 
-class MasterViewController: UITableViewController {
+class MasterViewController: UITableViewController, SAPFioriLoadingIndicator {
     
-    let unicornURL = "http://localhost:3000/unicorns"
     
     //MARK: Properties
     var unicorns = [Unicorn]()
-
+    
     var detailViewController: DetailViewController? = nil
-
-
-
+    
+    var loadingIndicator: FUILoadingIndicatorView?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         if let split = splitViewController {
             let controllers = split.viewControllers
             detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
@@ -32,38 +31,40 @@ class MasterViewController: UITableViewController {
         tableView.estimatedRowHeight = 80
         self.updateTable()
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         clearsSelectionOnViewWillAppear = splitViewController!.isCollapsed
         super.viewWillAppear(animated)
     }
-
     
-
+    
+    
     // MARK: - Segues
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetail" {
-//            if let indexPath = tableView.indexPathForSelectedRow {
+            if let indexPath = tableView.indexPathForSelectedRow {
+                
 //                let object = objects[indexPath.row] as! NSDate
-//                let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
+                let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
 //                controller.detailItem = object
-//                controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
-//                controller.navigationItem.leftItemsSupplementBackButton = true
-//            }
+                controller.unicorn = unicorns[indexPath.row]
+                controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
+                controller.navigationItem.leftItemsSupplementBackButton = true
+            }
         }
     }
-
+    
     // MARK: - Table View
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return unicorns.count
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let objectCell = tableView.dequeueReusableCell(withIdentifier: FUIObjectTableViewCell.reuseIdentifier, for: indexPath)
             as! FUIObjectTableViewCell
@@ -87,70 +88,83 @@ class MasterViewController: UITableViewController {
         
         return objectCell
     }
-
+    
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
-
+    
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-//        if editingStyle == .delete {
-//            objects.remove(at: indexPath.row)
-//            tableView.deleteRows(at: [indexPath], with: .fade)
-//        } else if editingStyle == .insert {
-//            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
-//        }
+        //        if editingStyle == .delete {
+        //            objects.remove(at: indexPath.row)
+        //            tableView.deleteRows(at: [indexPath], with: .fade)
+        //        } else if editingStyle == .insert {
+        //            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+        //        }
     }
     
-    private func updateTable() {
-        guard let loanUrl = URL(string: unicornURL) else {
+    func updateTable() {
+        self.showFioriLoadingIndicator()
+        DispatchQueue.global().async {
+            self.loadData {
+                self.hideFioriLoadingIndicator()
+            }
+        }
+    }
+    
+    private func loadData(completionHandler: @escaping() -> Void) {
+        self.requestEntities { error in
+            defer {
+                completionHandler()
+            }
+            
+            if let error = error {
+                print("error")
+                AlertHelper.displayAlert(with: "Create Entry failed", error: error, viewController: self)
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                
+            }
+        }
+    }
+    
+    private func requestEntities( completionHandler: @escaping (Error?) -> Void) {
+        guard let url = URL(string: UnicornAPIURLs.instance.getUnicorns()) else {
             return
         }
         
-        let request = URLRequest(url: loanUrl)
+        let request = URLRequest(url: url)
         let task = URLSession.shared.dataTask(with: request, completionHandler: {
             (data, response, error) -> Void in
             
             if let error = error {
-                print(error)
+                completionHandler(error)
                 return
             }
             
             if let data = data {
                 self.unicorns = self.parseJsonData(data: data)
                 
-                OperationQueue.main.addOperation {
-                    self.tableView.reloadData()
-                }
+                completionHandler(error)
             }
         })
         task.resume()
     }
     
+    
     func parseJsonData(data: Data) -> [Unicorn] {
         var unicorns = [Unicorn]()
         
         let jsonResult = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers)
-        if let jsonDatas = jsonResult as? [AnyObject] {
-            for jsonUnicorn in jsonDatas {
-                let u = Unicorn()
-                u.name = jsonUnicorn["name"] as? String
-                u.country = jsonUnicorn["country"] as? String
-                u.last_funding_on = jsonUnicorn[""] as? String
-                u.total_equity_funding = jsonUnicorn["total_equity_funding"] as? Double
-                u.founded_on = jsonUnicorn["founded_on"] as? Int
-                u.category = jsonUnicorn["category"] as? String
-                u.rumored = jsonUnicorn["rumored"] as? Int
-                u.post_money_val = jsonUnicorn["post_money_val"] as? Double
-                u.valuation_change = jsonUnicorn["valuation_change"] as? Int
-                u.date_of_valuation = jsonUnicorn["date_of_valuation"] as? String
-                unicorns.append(u)
-            }
-            
+        
+        if let jsonData = jsonResult as? [AnyObject] {
+            unicorns = Unicorn.getUnicorns(jsonData)
         }
         return unicorns
     }
-
-
+    
 }
 
