@@ -59,6 +59,7 @@
 		78D3F3122302A119008777A6 /* AlertHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertHelper.swift; sourceTree = "<group>"; };
 		78D3F3192302A554008777A6 /* FundingRound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundingRound.swift; sourceTree = "<group>"; };
 		78D3F31B2302A699008777A6 /* UnicornAPIURLs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnicornAPIURLs.swift; sourceTree = "<group>"; };
+		78FC16B02302ED6D0063457E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +109,7 @@
 				7880B627230298AF00486D9B /* Info.plist */,
 				78D3F3192302A554008777A6 /* FundingRound.swift */,
 				78D3F31B2302A699008777A6 /* UnicornAPIURLs.swift */,
+				78FC16B02302ED6D0063457E /* README.md */,
 			);
 			path = unicorn3;
 			sourceTree = "<group>";
