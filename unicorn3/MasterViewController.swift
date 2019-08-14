@@ -160,9 +160,10 @@ class MasterViewController: UITableViewController, SAPFioriLoadingIndicator {
         
         let jsonResult = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers)
         
-        if let jsonData = jsonResult as? [AnyObject] {
-            unicorns = Unicorn.getUnicorns(jsonData)
+        if let dictionary = jsonResult as? [String: Any] {
+            unicorns = Unicorn.getUnicorns(dictionary)
         }
+
         return unicorns
     }
     

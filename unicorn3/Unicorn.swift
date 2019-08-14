@@ -23,10 +23,13 @@ class Unicorn {
     var valuation_change: Int?
     var date_of_valuation: String?
     
-    static func getUnicorns(_ jsonDatas: [AnyObject])->  [Unicorn] {
+    static func getUnicorns(_ dictionary: [String: Any])->  [Unicorn] {
+        
+        let jsonUnicorns = dictionary["entities"] as! [AnyObject]
+        
         var unicorns = [Unicorn]()
         
-        for jsonUnicorn in jsonDatas {
+        for jsonUnicorn in jsonUnicorns {
             let u = Unicorn()
             u.name = jsonUnicorn["name"] as? String
             u.country = jsonUnicorn["country"] as? String
